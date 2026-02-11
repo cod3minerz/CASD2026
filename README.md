@@ -21,5 +21,5 @@
 
 1. Клонируйте репозиторий:
    ```bash
-   git clone https://github.com/ваш_пользователь/репозиторий
+   git clone https://github.com/cod3minerz/CASD2026.git
 2. Перемещайтесь по веткам для просмотра задач
