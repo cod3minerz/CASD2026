@@ -1,10 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# 
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "task19", "task19\task19.csproj", "{8979207F-ABFD-4A30-B83A-70EF1C3FD007}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "task-lab18", "task-lab18\task-lab18.csproj", "{19933B43-05DA-47B4-8EFE-35675BA58F49}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "18task", "18task\18task.csproj", "{F67F6222-1CE0-4722-B20E-F288151989C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "task18", "task18\task18.csproj", "{1101EA7C-4762-40C9-9199-FC3CFAC1009E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,14 +15,10 @@ Global
 		{8979207F-ABFD-4A30-B83A-70EF1C3FD007}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8979207F-ABFD-4A30-B83A-70EF1C3FD007}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8979207F-ABFD-4A30-B83A-70EF1C3FD007}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19933B43-05DA-47B4-8EFE-35675BA58F49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19933B43-05DA-47B4-8EFE-35675BA58F49}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19933B43-05DA-47B4-8EFE-35675BA58F49}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19933B43-05DA-47B4-8EFE-35675BA58F49}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F67F6222-1CE0-4722-B20E-F288151989C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F67F6222-1CE0-4722-B20E-F288151989C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F67F6222-1CE0-4722-B20E-F288151989C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F67F6222-1CE0-4722-B20E-F288151989C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1101EA7C-4762-40C9-9199-FC3CFAC1009E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1101EA7C-4762-40C9-9199-FC3CFAC1009E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1101EA7C-4762-40C9-9199-FC3CFAC1009E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1101EA7C-4762-40C9-9199-FC3CFAC1009E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
