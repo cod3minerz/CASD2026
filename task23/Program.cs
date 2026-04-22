@@ -112,7 +112,7 @@ namespace Task23
 
                 if (table.ContainsKey(name))
                 {
-                    report.AppendLine("Переопределение переменной: " + name + " (оставлено первое определение)");
+                     report.AppendLine("Переопределение переменной: " + name + " (оставлено первое определение)");
                     continue;
                 }
 

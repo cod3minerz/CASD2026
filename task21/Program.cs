@@ -23,12 +23,14 @@ namespace Task21
         private Entry<K, V>[] table; 
         private int size;           
         private float loadFactor;   
+        private int resizeThreshold;
         
         public MyHashMap()
         {
             table = new Entry<K, V>[16];
             size = 0;
             loadFactor = 0.75f;
+            RecalculateResizeThreshold();
         }
         
         public MyHashMap(int initialCapacity)
@@ -39,6 +41,7 @@ namespace Task21
             table = new Entry<K, V>[initialCapacity];
             size = 0;
             loadFactor = 0.75f;
+            RecalculateResizeThreshold();
         }
         
         public MyHashMap(int initialCapacity, float loadFactor)
@@ -51,19 +54,20 @@ namespace Task21
             table = new Entry<K, V>[initialCapacity];
             size = 0;
             this.loadFactor = loadFactor;
+            RecalculateResizeThreshold();
+        }
+
+        private void RecalculateResizeThreshold()
+        {
+            resizeThreshold = (int)(table.Length * loadFactor);
+            if (resizeThreshold <= 0)
+                resizeThreshold = 1;
         }
         
         private int GetBucketIndex(K key)
         {
-            if (key == null)
-                return 0;
-    
-            int hashCode = key.GetHashCode();
-            
-            if (hashCode < 0)
-                hashCode = -hashCode;
-    
-            return hashCode % table.Length;
+            int hashCode = key == null ? 0 : key.GetHashCode();
+            return (hashCode & 0x7FFFFFFF) % table.Length;
         }
         
         private void Resize()
@@ -79,9 +83,7 @@ namespace Task21
                     Entry<K, V> next = current.Next;
                     
                     int hashCode = current.Key == null ? 0 : current.Key.GetHashCode();
-                    if (hashCode < 0)
-                        hashCode = -hashCode;
-                    int newIndex = hashCode % newCapacity;
+                    int newIndex = (hashCode & 0x7FFFFFFF) % newCapacity;
                     
                     current.Next = newTable[newIndex];
                     newTable[newIndex] = current;
@@ -89,13 +91,14 @@ namespace Task21
                     current = next;
                 }
             }
-    
+
             table = newTable;
+            RecalculateResizeThreshold();
         }
         
         public void Put(K key, V value)
         {
-            if ((float)size / table.Length >= loadFactor)
+            if (size >= resizeThreshold)
                 Resize();
     
             int index = GetBucketIndex(key);
@@ -122,22 +125,31 @@ namespace Task21
             }
             
             Entry<K, V> newEntry = new Entry<K, V>(key, value);
-    
-            if (table[index] == null)
-            {
-                table[index] = newEntry;
-            }
-            else
-            {
-                Entry<K, V> tail = table[index];
-                while (tail.Next != null)
-                    tail = tail.Next;
-                tail.Next = newEntry;
-            }
-    
+            newEntry.Next = table[index];
+            table[index] = newEntry;
+
             size++;
         }
         
+        public V Get(K key)
+        {
+            int index = GetBucketIndex(key);
+            Entry<K, V> current = table[index];
+
+            while (current != null)
+            {
+                bool keysEqual = (key == null && current.Key == null)
+                              || (key != null && key.Equals(current.Key));
+
+                if (keysEqual)
+                    return current.Value;
+
+                current = current.Next;
+            }
+
+            return default(V);
+        }
+
         public V Get(object key)
         {
             K typedKey;
@@ -149,24 +161,39 @@ namespace Task21
             {
                 return default(V);
             }
-    
-            int index = GetBucketIndex(typedKey);
-            Entry<K, V> current = table[index];
-    
-            while (current != null)
-            {
-                bool keysEqual = (typedKey == null && current.Key == null)
-                              || (typedKey != null && typedKey.Equals(current.Key));
-    
-                if (keysEqual)
-                    return current.Value;
-    
-                current = current.Next;
-            }
-    
-            return default(V);
+
+            return Get(typedKey);
         }
         
+        public bool Remove(K key)
+        {
+            int index = GetBucketIndex(key);
+            Entry<K, V> current = table[index];
+            Entry<K, V> previous = null;
+
+            while (current != null)
+            {
+                bool keysEqual = (key == null && current.Key == null)
+                              || (key != null && key.Equals(current.Key));
+
+                if (keysEqual)
+                {
+                    if (previous == null)
+                        table[index] = current.Next; 
+                    else
+                        previous.Next = current.Next;
+
+                    size--;
+                    return true;
+                }
+
+                previous = current;
+                current = current.Next;
+            }
+
+            return false;
+        }
+
         public bool Remove(object key)
         {
             K typedKey;
@@ -178,34 +205,29 @@ namespace Task21
             {
                 return false;
             }
-    
-            int index = GetBucketIndex(typedKey);
-            Entry<K, V> current = table[index];
-            Entry<K, V> previous = null;
-    
-            while (current != null)
-            {
-                bool keysEqual = (typedKey == null && current.Key == null)
-                              || (typedKey != null && typedKey.Equals(current.Key));
-    
-                if (keysEqual)
-                {
-                    if (previous == null)
-                        table[index] = current.Next; 
-                    else
-                        previous.Next = current.Next;
-    
-                    size--;
-                    return true;
-                }
-    
-                previous = current;
-                current = current.Next;
-            }
-    
-            return false;
+
+            return Remove(typedKey);
         }
         
+        public bool ContainsKey(K key)
+        {
+            int index = GetBucketIndex(key);
+            Entry<K, V> current = table[index];
+
+            while (current != null)
+            {
+                bool keysEqual = (key == null && current.Key == null)
+                              || (key != null && key.Equals(current.Key));
+
+                if (keysEqual)
+                    return true;
+
+                current = current.Next;
+            }
+
+            return false;
+        }
+
         public bool ContainsKey(object key)
         {
             K typedKey;
@@ -217,22 +239,8 @@ namespace Task21
             {
                 return false;
             }
-    
-            int index = GetBucketIndex(typedKey);
-            Entry<K, V> current = table[index];
-    
-            while (current != null)
-            {
-                bool keysEqual = (typedKey == null && current.Key == null)
-                              || (typedKey != null && typedKey.Equals(current.Key));
-    
-                if (keysEqual)
-                    return true;
-    
-                current = current.Next;
-            }
-    
-            return false;
+
+            return ContainsKey(typedKey);
         }
         
         public bool ContainsValue(object value)
@@ -417,4 +425,3 @@ namespace Task21
         }
     }
 }
-

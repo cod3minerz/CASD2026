@@ -118,11 +118,9 @@ namespace task19
         {
             while (z.Parent != null && z.Parent.isRed)
             {
-                if (z.Parent.Parent == null) break;
-
                 if (z.Parent == z.Parent.Parent.Left)
                 {
-                    Node y = z.Parent.Parent.Right;  // дядя
+                    Node y = z.Parent.Parent.Right;
                     if (y != null && y.isRed)
                     {
                         z.Parent.isRed = false;
@@ -137,21 +135,16 @@ namespace task19
                             z = z.Parent;
                             RotateLeft(z);
                         }
-                        if (z.Parent != null)
-                        {
-                            z.Parent.isRed = false;
-                            if (z.Parent.Parent != null)
-                            {
-                                z.Parent.Parent.isRed = true;
-                                RotateRight(z.Parent.Parent);
-                            }
-                        }
+                        z.Parent.isRed = false;
+                        z.Parent.Parent.isRed = true;
+                        RotateRight(z.Parent.Parent);
                         break;
                     }
                 }
                 else
                 {
-                    Node y = z.Parent.Parent.Left;  // дядя
+                    // симметричный случай
+                    Node y = z.Parent.Parent.Left;
                     if (y != null && y.isRed)
                     {
                         z.Parent.isRed = false;
@@ -166,21 +159,14 @@ namespace task19
                             z = z.Parent;
                             RotateRight(z);
                         }
-                        if (z.Parent != null)
-                        {
-                            z.Parent.isRed = false;
-                            if (z.Parent.Parent != null)
-                            {
-                                z.Parent.Parent.isRed = true;
-                                RotateLeft(z.Parent.Parent);
-                            }
-                        }
+                        z.Parent.isRed = false;
+                        z.Parent.Parent.isRed = true;
+                        RotateLeft(z.Parent.Parent);
                         break;
                     }
                 }
             }
-            if (root != null)
-                root.isRed = false;
+            root.isRed = false;
         }
 
         private void DeleteFixup(Node x, Node xParent, bool xIsLeft)
@@ -336,6 +322,23 @@ namespace task19
             size++;
             InsertFixup(z);
         }
+        
+        /// <summary>
+        /// Возвращает значение, связанное с указанным ключом.
+        /// </summary>
+        /// <exception cref="KeyNotFoundException">Ключ не найден.</exception>
+        public V Get(K key)
+        {
+            Node node = FindNode(key);
+            if (node == null)
+                throw new KeyNotFoundException($"Key '{key}' not found.");
+            return node.Value;
+        }
+
+        /// <summary>
+        /// Индексатор для доступа к значению по ключу (аналог Get).
+        /// </summary>
+        public V this[K key] => Get(key);
 
         public void Remove(K key)
         {
