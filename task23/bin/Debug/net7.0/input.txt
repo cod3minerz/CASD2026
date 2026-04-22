@@ -1,0 +1,29 @@
+int a = 0;
+float b=42;
+double c = 18446744073709551615;
+
+int
+multiLineVar
+=
+123;
+
+double    spaced_name123    =    00000123   ;
+
+char wrongType = 5;
+string s = 10;
+
+int dup = 10;
+float dup = 20;
+
+int 1bad = 3;
+double ok_2 = 999;
+
+double tooBig = 18446744073709551616;
+
+float tabs	=	77;
+
+double
+alsoMulti
+=
+0
+;

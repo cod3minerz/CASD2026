@@ -1,0 +1,15 @@
+/Users/kirill/RiderProjects/casd2026/task20/bin/Debug/net7.0/task20
+/Users/kirill/RiderProjects/casd2026/task20/bin/Debug/net7.0/task20.deps.json
+/Users/kirill/RiderProjects/casd2026/task20/bin/Debug/net7.0/task20.runtimeconfig.json
+/Users/kirill/RiderProjects/casd2026/task20/bin/Debug/net7.0/task20.dll
+/Users/kirill/RiderProjects/casd2026/task20/bin/Debug/net7.0/task20.pdb
+/Users/kirill/RiderProjects/casd2026/task20/obj/Debug/net7.0/task20.csproj.AssemblyReference.cache
+/Users/kirill/RiderProjects/casd2026/task20/obj/Debug/net7.0/task20.GeneratedMSBuildEditorConfig.editorconfig
+/Users/kirill/RiderProjects/casd2026/task20/obj/Debug/net7.0/task20.AssemblyInfoInputs.cache
+/Users/kirill/RiderProjects/casd2026/task20/obj/Debug/net7.0/task20.AssemblyInfo.cs
+/Users/kirill/RiderProjects/casd2026/task20/obj/Debug/net7.0/task20.csproj.CoreCompileInputs.cache
+/Users/kirill/RiderProjects/casd2026/task20/obj/Debug/net7.0/task20.dll
+/Users/kirill/RiderProjects/casd2026/task20/obj/Debug/net7.0/refint/task20.dll
+/Users/kirill/RiderProjects/casd2026/task20/obj/Debug/net7.0/task20.pdb
+/Users/kirill/RiderProjects/casd2026/task20/obj/Debug/net7.0/task20.genruntimeconfig.cache
+/Users/kirill/RiderProjects/casd2026/task20/obj/Debug/net7.0/ref/task20.dll
