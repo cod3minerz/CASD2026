@@ -51,7 +51,8 @@ double[] remHash = new double[m];
 double[] remTree = new double[m];
 int[] runCounts = new int[m];
 
-Console.WriteLine("Задача 24: сравнение MyHashMap (task21) и MyTreeMap (task19 - – красно-чёрное дерево).");
+Console.WriteLine("Задача 24: сравнение MyHashMap (task21) и MyTreeMap (task19 - красно-чёрное дерево).");
+
 if (!fullSizes)
     Console.WriteLine("Режим: 10^5, 10^6, 10^7. Для добавления 10^8 запустите с --all.");
 else
@@ -110,9 +111,9 @@ string pPut = Path.Combine(chartsDir, "put.png");
 string pGet = Path.Combine(chartsDir, "get.png");
 string pRem = Path.Combine(chartsDir, "remove.png");
 
-SaveChartPng("Put (пустая карта, N вставок)", pPut, sizes, putHash, putTree);
-SaveChartPng("Get (карта заполнена, N поисков)", pGet, sizes, getHash, getTree);
-SaveChartPng("Remove (карта заполнена, N удалений)", pRem, sizes, remHash, remTree);
+SaveChartPng("Put: N insertions into empty map", pPut, sizes, putHash, putTree);
+SaveChartPng("Get: N lookups (map pre-filled)", pGet, sizes, getHash, getTree);
+SaveChartPng("Remove: N removals (map pre-filled)", pRem, sizes, remHash, remTree);
 
 Console.WriteLine("Графики (PNG) сохранены:");
 Console.WriteLine($"  {Path.GetFullPath(pPut)}");
@@ -335,19 +336,46 @@ static (double put, double get, double remove) BenchAllTreeSingleRun(
 
 static void SaveChartPng(string title, string path, int[] sizesArr, double[] hashY, double[] treeY)
 {
-    double[] xs = sizesArr.Select(s => (double)s).ToArray();
+    double[] logXs = sizesArr.Select(s => Math.Log10(s)).ToArray();
+    double[] logHashY = hashY.Select(y => Math.Log10(y)).ToArray();
+    double[] logTreeY = treeY.Select(y => Math.Log10(y)).ToArray();
+
     Plot plt = new();
     plt.Title(title);
-    plt.XLabel("Размер N");
-    plt.YLabel("Среднее время, с");
-    var h = plt.Add.Scatter(xs, hashY);
-    h.LegendText = "MyHashMap";
-    h.LineWidth = 2;
-    h.MarkerSize = 12;
-    var t = plt.Add.Scatter(xs, treeY);
-    t.LegendText = "MyTreeMap (RB)";
-    t.LineWidth = 2;
-    t.MarkerSize = 12;
+    plt.XLabel("Map size N");
+    plt.YLabel("Avg time, sec (log scale)");
+
+    var h = plt.Add.Scatter(logXs, logHashY);
+    h.LegendText = "HashMap (hash table)";
+    h.LineWidth = 2.5f;
+    h.MarkerSize = 10;
+    h.Color = ScottPlot.Color.FromHex("#2196F3");
+
+    var t = plt.Add.Scatter(logXs, logTreeY);
+    t.LegendText = "TreeMap (red-black tree)";
+    t.LineWidth = 2.5f;
+    t.MarkerSize = 10;
+    t.Color = ScottPlot.Color.FromHex("#F44336");
+
+    // Ось X: метки с реальными значениями N
+    ScottPlot.TickGenerators.NumericManual xTicks = new();
+    foreach (int s in sizesArr)
+        xTicks.AddMajor(Math.Log10(s), $"10^{(int)Math.Log10(s)}");
+    plt.Axes.Bottom.TickGenerator = xTicks;
+    
+    ScottPlot.TickGenerators.NumericManual yTicks = new();
+    double allMin = Math.Min(hashY.Min(), treeY.Min());
+    double allMax = Math.Max(hashY.Max(), treeY.Max());
+    int yFrom = (int)Math.Floor(Math.Log10(allMin));
+    int yTo   = (int)Math.Ceiling(Math.Log10(allMax));
+    for (int e = yFrom; e <= yTo; e++)
+    {
+        double realSec = Math.Pow(10, e);
+        string label = e >= 0 ? $"{realSec:F0} s" : $"{realSec:G2} s";
+        yTicks.AddMajor(e, label);
+    }
+    plt.Axes.Left.TickGenerator = yTicks;
+
     plt.ShowLegend();
     plt.SavePng(path, 900, 600);
 }
