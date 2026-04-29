@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\task10\task6\task6.csproj" />
+      <ProjectReference Include="..\..\task10\task14\task14.csproj" />
+      <ProjectReference Include="..\..\task10\task17\task17.csproj" />
+      <ProjectReference Include="..\..\task10\task11\task11.csproj" />
+      <ProjectReference Include="..\task25\task25.csproj" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+</Project>
